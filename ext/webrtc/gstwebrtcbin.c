@@ -1767,8 +1767,6 @@ _create_offer_task (GstWebRTCBin * webrtc, const GstStructure * options)
 
   gst_sdp_message_new (&ret);
 
-  GST_WARNING_OBJECT (webrtc, "PENGUIN %s", ret);
-
   gst_sdp_message_set_version (ret, "0");
   {
     /* FIXME: session id and version need special handling depending on the state we're in */
@@ -1776,7 +1774,9 @@ _create_offer_task (GstWebRTCBin * webrtc, const GstStructure * options)
     gst_sdp_message_set_origin (ret, "-", sess_id, "0", "IN", "IP4", "0.0.0.0");
     g_free (sess_id);
   }
+  GST_WARNING_OBJECT (webrtc, "PENGUIN version %s", ret->version);
   gst_sdp_message_set_session_name (ret, "-");
+  GST_WARNING_OBJECT (webrtc, "PENGUIN session %s", ret->session_name);
   gst_sdp_message_add_time (ret, "0", "0", NULL);
   gst_sdp_message_add_attribute (ret, "ice-options", "trickle");
 
@@ -2208,7 +2208,9 @@ _create_sdp_task (GstWebRTCBin * webrtc, struct create_sdp *data)
     goto out;
   }
 
+  GST_WARNING_OBJECT (webrtc, "PENGUIN is there SDP?");
   if (sdp) {
+    GST_WARNING_OBJECT (webrtc, "PENGUIN Yes %s",  gst_webrtc_sdp_type_to_string (data->type));
     desc = gst_webrtc_session_description_new (data->type, sdp);
     s = gst_structure_new ("application/x-gst-promise",
         gst_webrtc_sdp_type_to_string (data->type),
