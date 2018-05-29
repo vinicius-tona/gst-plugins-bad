@@ -1767,6 +1767,8 @@ _create_offer_task (GstWebRTCBin * webrtc, const GstStructure * options)
 
   gst_sdp_message_new (&ret);
 
+  GST_WARNING_OBJECT (webrtc, "PENGUIN %s", ret);
+
   gst_sdp_message_set_version (ret, "0");
   {
     /* FIXME: session id and version need special handling depending on the state we're in */
